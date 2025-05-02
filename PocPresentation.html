@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Live Class Analyzer POC - For High School Students</title>
+  <style>
+    body { font-family: 'Segoe UI', sans-serif; background: #ffffff; color: #222; margin: 0; padding: 20px; }
+    header { text-align: center; margin-bottom: 30px; }
+    h1 { font-size: 36px; color: #004d99; }
+    .section { margin-bottom: 40px; }
+    h2 { font-size: 28px; color: #0066cc; margin-bottom: 15px; }
+    .diagram, .flow, .benefit { display: flex; justify-content: center; align-items: center; }
+    .box { background: #f2f9ff; border: 2px solid #0066cc; border-radius: 8px; padding: 20px; margin: 0 15px; width: 160px; text-align: center; font-size: 16px; }
+    .arrow { font-size: 36px; margin: 0 15px; color: #0066cc; }
+    .flow { flex-direction: column; text-align: center; }
+    .flow .step { background: #e6f2ff; border-left: 4px solid #004d99; border-radius: 6px; padding: 20px; margin: 12px 0; width: 70%; font-size: 18px; }
+    .benefit { flex-wrap: wrap; justify-content: space-around; margin-top: 20px; }
+    .benefit .item { background: #fff4e6; border: 2px solid #ff9900; border-radius: 8px; padding: 15px; margin: 10px; width: 140px; text-align: center; font-size: 16px; }
+    p { font-size: 18px; line-height: 1.6; }
+    .glossary { background: #f9f9f9; border: 1px solid #ccc; padding: 20px; border-radius: 6px; }
+    .glossary h3 { font-size: 22px; color: #004d99; margin-bottom: 10px; }
+    .glossary dt { font-weight: bold; margin-top: 10px; }
+    .glossary dd { margin-left: 20px; margin-bottom: 5px; }
+    .subdiagram { display: flex; justify-content: center; align-items: center; margin: 20px 0; }
+    .subbox { background: #fff; border: 2px dashed #0066cc; border-radius: 8px; padding: 15px; margin: 0 10px; width: 140px; text-align: center; font-size: 16px; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>What is Live Class Analyzer?</h1>
+    <p>A system to check everyone's understanding in online classes in real-time.</p>
+  </header>
+
+  <div class="section">
+    <h2>1. 仕組みのイメージ</h2>
+    <div class="diagram">
+      <div class="box">講師<br>映像＋音声</div>
+      <div class="arrow">→ SFU →</div>
+      <div class="box">生徒ブラウザ ×10</div>
+    </div>
+    <p style="text-align:center;">WebRTC＋SFUで、講師の画面と音声を一度に送信</p>
+    <div style="max-width:600px; margin: 10px auto; font-size:16px;">
+      <strong>同時配信の仕組み：</strong>
+      <ul>
+        <li>講師 → SFU：一度だけ映像・音声を送信</li>
+        <li>SFU → 生徒：全員へ中継配信</li>
+        <li>講師の負荷を低減し、多人数配信を実現</li>
+      </ul>
+    </div>
+    <div style="max-width:600px; margin: 20px auto; font-size:16px;">
+      <strong>生徒映像解析の流れ：</strong>
+      <div class="subdiagram">
+        <div class="subbox">生徒スクリーン<br>キャプチャ</div>
+        <div class="arrow">→</div>
+        <div class="subbox">Gemini APIで<br>画像解析</div>
+        <div class="arrow">→</div>
+        <div class="subbox">解析結果<br>（理解度等）</div>
+      </div>
+      <p style="text-align:center;">AIが各生徒の画面を解析し、理解度を評価</p>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>2. データ処理フロー</h2>
+    <div class="flow">
+      <div class="step">① 画面/音声共有開始</div>
+      <div class="step">② 30秒ごとに<br>キャプチャ取得</div>
+      <div class="step">③ AI解析 (Gemini API)</div>
+      <div class="step">④ DB保存 &<br>ダッシュボード更新</div>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>3. メリット</h2>
+    <div class="benefit">
+      <div class="item">理解が遅れている生徒を早期発見</div>
+      <div class="item">授業改善のヒントをデータで可視化</div>
+      <div class="item">講師の負担軽減と効率的なフォロー</div>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>4. 技術スタック & 用語解説</h2>
+    <ul style="list-style: none; padding: 0; font-size: 18px; margin-bottom: 20px;">
+      <li>React + TypeScript (Vite)：フロントエンド</li>
+      <li>Python (FastAPI)：バックエンド</li>
+      <li>PostgreSQL：データベース</li>
+      <li>WebRTC + SFU：映像/音声配信</li>
+      <li>Gemini API：画像/音声解析</li>
+      <li>GCP VM + Docker Compose：インフラ (K8s検討)</li>
+      <li>GitLab CI：CI/CD</li>
+    </ul>
+    <div class="glossary">
+      <h3>用語解説</h3>
+      <dl>
+        <dt>WebRTC</dt><dd>ブラウザ間でリアルタイム通信を行う技術。</dd>
+        <dt>SFU</dt><dd>音声/映像を中継し、多人数配信を効率化するサーバー。</dd>
+        <dt>ストリーム</dt><dd>連続するデータの流れ (映像/音声)。</dd>
+        <dt>Gemini API</dt><dd>GoogleのAI解析サービス。</dd>
+        <dt>FastAPI</dt><dd>高速なPython製Webフレームワーク。</dd>
+      </dl>
+    </div>
+  </div>
+
+</body>
+</html>
